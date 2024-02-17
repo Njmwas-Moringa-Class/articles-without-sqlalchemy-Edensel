@@ -9,63 +9,58 @@ from Magazine import Magazine
 from Article import Article
 
 if __name__ == '__main__':
-    #  WRITE YOUR TEST CODE HERE ###
-    
-    #create an author instance
-    author = Author("Densel Esekon")
-    
-    #create author and magazine instances
-    author = Author("Densel Esekon")
-    magazine = Magazine("Spice FM", "Royal Media")
+    author1 = Author("Alice Smith")
+    author2 = Author("Bob Johnson")
+    author3 = Author("Charlie Brown")
 
-    # Add an article to the author
-    article = author.add_article(magazine, "Spice FM")
+    magazine1 = Magazine("Science Today", "Science")
+    magazine2 = Magazine("World News", "Current Affairs")
 
-    # Check if articles() method returns the list of articles
-    author.articles() == [article]
+    article1 = author1.add_article(magazine1, "Exploring the Cosmos")
+    article2 = author2.add_article(magazine1, "The Future of Space Travel")
+    article3 = author2.add_article(magazine2, "Global Politics in 21st Century")
+    article4 = author3.add_article(magazine2, "Climate Change: A Global Challenge")
 
-    # Check if magazines() method returns the correct list of magazines
-    author.magazines() == [magazine]
+    # Testing
+    assert author1.articles() == [article1]
+    assert author1.magazines() == [magazine1]
+    assert author1.topic_areas() == ["Science"]
 
-    # Check if topic_areas() method returns the correct list of categories
-    author.topic_areas() == ["Politic"]
+    assert author2.articles() == [article2, article3]
+    assert author2.magazines() == [magazine1, magazine2]
+    assert author2.topic_areas() == ["Science", "Current Affairs"]
 
-    # Create Author and Magazine instances
-    author = Author("Densel Esekon")
-    magazine = Magazine("Spice FM", "Royal Media")
+    assert author3.articles() == [article4]
+    assert author3.magazines() == [magazine2]
+    assert author3.topic_areas() == ["Current Affairs"]
 
-    # Add an article to the magazine
-    article = magazine.add_article(author, "The Future of AI")
+    assert magazine1.contributors() == [author1, author2]
+    assert magazine1.article_titles() == ["Exploring the Cosmos", "The Future of Space Travel"]
+    assert magazine1.contributing_authors() == [author1, author2]
 
-    # Check if contributors() method returns the correct list of authors
-    magazine.contributors() == [author]
+    assert magazine2.contributors() == [author2, author3]
+    assert magazine2.article_titles() == ["Global Politics in 21st Century", "Climate Change: A Global Challenge"]
+    assert magazine2.contributing_authors() == [author2, author3]
 
-    # Check if article_titles() method returns the correct list of article titles
-    magazine.article_titles() == ["The Future of AI"]
+    assert article1.title() == "Exploring the Cosmos"
+    assert article1.author() == author1
+    assert article1.magazine() == magazine1
 
-    # Check if contributing_authors() method returns the correct list of authors
-    magazine.contributing_authors() == [author]
-    # Create Author and Magazine instances
-    author = Author("John Doe")
-    magazine = Magazine("Tech Weekly", "Technology")
+    assert article2.title() == "The Future of Space Travel"
+    assert article2.author() == author2
+    assert article2.magazine() == magazine1
 
-    # Create an Article instance
-    article = Article(author, magazine, "The Future of AI")
+    assert article3.title() == "Global Politics in 21st Century"
+    assert article3.author() == author2
+    assert article3.magazine() == magazine2
 
-    # Check if title() method returns the correct title
-    article.title() == "The Future of AI"
+    assert article4.title() == "Climate Change: A Global Challenge"
+    assert article4.author() == author3
+    assert article4.magazine() == magazine2
 
-    # Check if author() method returns the correct author
-    article.author() == author
+    assert Article.all() == [article1, article2, article3, article4]
 
-    # Check if magazine() method returns the correct magazine
-    article.magazine() == magazine
-
-    # Check if all() method returns all article instances
-    Article.all() == [article]
-
-
-    # Test code
+    # Print information
     print("Authors:")
     for author in Author.all():
         print(author.name())
@@ -78,5 +73,5 @@ if __name__ == '__main__':
     for article in Article.all():
         print(f"{article.title()} by {article.author().name()} in {article.magazine().name()}")
 
-    # DO NOT REMOVE THIS
+    # Enter debugging mode
     ipdb.set_trace()
