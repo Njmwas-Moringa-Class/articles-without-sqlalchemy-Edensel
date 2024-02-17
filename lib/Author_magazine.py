@@ -1,11 +1,10 @@
-# creating a many-many relationship between Author and Magazine based on the article they contribute.
-
 class Contribution:
     _all_contributions = []
 
-    def __init__(self, author, magazine):
+    def __init__(self, author, magazine, article):
         self._author = author
         self._magazine = magazine
+        self._article = article  # Add the article attribute
         Contribution._all_contributions.append(self)
 
     @property
@@ -15,6 +14,10 @@ class Contribution:
     @property
     def magazine(self):
         return self._magazine
+
+    @property
+    def article(self):
+        return self._article
 
     @classmethod
     def all(cls):
