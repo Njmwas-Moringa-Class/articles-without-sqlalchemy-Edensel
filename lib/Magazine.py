@@ -15,25 +15,24 @@ class Magazine:
     def category(self):
         return self._category
 
-    def all():
-        return Magazine._all_magazines
-
-    def contributors(self):
-        return list(set(contribution.author for contribution in self._contributions))
-
-    def add_contribution(self, author):
-        contribution = Contribution(author, self)
+    def add_contribution(self, author, article):
+        contribution = Contribution(author, self, article)
         self._contributions.append(contribution)
         return contribution
+
+    def contributors(self):
+        return [contribution.author for contribution in self._contributions]
+
+    def article_titles(self):
+        return [contribution.article.title() for contribution in self._contributions]
+
+    def contributing_authors(self):
+        return [author for author in self.contributors() if len(author.articles()) > 2]
 
     @classmethod
     def find_by_name(cls, name):
         return next((magazine for magazine in cls._all_magazines if magazine.name() == name), None)
 
     @classmethod
-    def article_titles(cls):
-        return [article.title() for magazine in cls._all_magazines for article in magazine._articles]
-
-    @classmethod
-    def contributing_authors(cls):
-        return [author for magazine in cls._all_magazines for author in magazine.contributors() if len(author.articles()) > 2]
+    def all(cls):
+        return cls._all_magazines
