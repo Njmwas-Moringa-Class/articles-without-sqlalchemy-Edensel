@@ -1,4 +1,4 @@
-
+from Author_magazine import Contribution
 
 class Magazine:
     _all_magazines = []
@@ -6,7 +6,7 @@ class Magazine:
     def __init__(self, name, category):
         self._name = name
         self._category = category
-        self._articles = []
+        self._contributions = []
         Magazine._all_magazines.append(self)
 
     def name(self):
@@ -19,13 +19,12 @@ class Magazine:
         return Magazine._all_magazines
 
     def contributors(self):
-        return list(set(article.author() for article in self._articles))
+        return list(set(contribution.author for contribution in self._contributions))
 
-    def add_article(self, author, title):
-        from Article import Article
-        new_article = Article(author, self, title)
-        self._articles.append(new_article)
-        return new_article
+    def add_contribution(self, author):
+        contribution = Contribution(author, self)
+        self._contributions.append(contribution)
+        return contribution
 
     @classmethod
     def find_by_name(cls, name):

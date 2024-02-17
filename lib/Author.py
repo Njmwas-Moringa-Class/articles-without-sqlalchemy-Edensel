@@ -1,29 +1,32 @@
+from Author_magazine import Contribution
+
 class Author:
-    _all_authors = []  #this field will save all the authors
+    _all_authors = []
 
     def __init__(self, name):
         self._name = name
-        self._articles = []
+        self._contributions = []
         Author._all_authors.append(self)
 
     def name(self):
         return self._name
 
-    def articles(self):
-        return self._articles
+    def contributions(self):
+        return self._contributions
 
     def magazines(self):
-        return list(set(article.magazine() for article in self._articles))
+        return list(set(contribution.magazine for contribution in self._contributions))
 
-    def add_article(self, magazine, title):
-        from Article import Article  # Import here to avoid circular import
-        new_article = Article(self, magazine, title)
-        self._articles.append(new_article)
-        return new_article
+    def add_contribution(self, magazine):
+        contribution = Contribution(self, magazine)
+        self._contributions.append(contribution)
+        return contribution
 
     def topic_areas(self):
-        return list(set(magazine.category() for magazine in self.magazines()))
+        return list(set(contribution.magazine.category() for contribution in self._contributions))
 
     @classmethod
     def all(cls):
         return cls._all_authors
+
+
