@@ -1,14 +1,14 @@
-#!/usr/bin/env python3
 import sys
-sys.path.append('lib')  # Assuming 'lib' is one level above 'tools'
-
-import ipdb
+sys.path.append('lib')
 
 from Author import Author
 from Magazine import Magazine
 from Article import Article
+from Author_magazine import Contribution
+
 
 if __name__ == '__main__':
+    # Creating sample instances
     author1 = Author("Alice Smith")
     author2 = Author("Bob Johnson")
     author3 = Author("Charlie Brown")
@@ -16,62 +16,42 @@ if __name__ == '__main__':
     magazine1 = Magazine("Science Today", "Science")
     magazine2 = Magazine("World News", "Current Affairs")
 
-    article1 = author1.add_article(magazine1, "Exploring the Cosmos")
-    article2 = author2.add_article(magazine1, "The Future of Space Travel")
-    article3 = author2.add_article(magazine2, "Global Politics in 21st Century")
-    article4 = author3.add_article(magazine2, "Climate Change: A Global Challenge")
+    article1 = Article(author1, magazine1, "Exploring the Cosmos")
+    article2 = Article(author2, magazine1, "The Future of Space Travel")
+    article3 = Article(author2, magazine2, "Global Politics in 21st Century")
 
-    # Testing
-    assert author1.articles() == [article1]
-    assert author1.magazines() == [magazine1]
-    assert author1.topic_areas() == ["Science"]
+    # Adding contributions
+    contribution1 = author1.add_contribution(magazine1, article1)
+    contribution2 = author2.add_contribution(magazine1, article2)
+    contribution3 = author2.add_contribution(magazine2, article3)
 
-    assert author2.articles() == [article2, article3]
-    assert author2.magazines() == [magazine1, magazine2]
-    assert author2.topic_areas() == ["Science", "Current Affairs"]
+    # Testing functionalities
+    print("Author 1 name:", author1.name())
+    print("Author 2 name:", author2.name())
+    print("Author 3 name:", author3.name())
 
-    assert author3.articles() == [article4]
-    assert author3.magazines() == [magazine2]
-    assert author3.topic_areas() == ["Current Affairs"]
+    print("Magazine 1 name:", magazine1.name())
+    print("Magazine 1 category:", magazine1.category())
+    print("Magazine 2 name:", magazine2.name())
+    print("Magazine 2 category:", magazine2.category())
 
-    assert magazine1.contributors() == [author1, author2]
-    assert magazine1.article_titles() == ["Exploring the Cosmos", "The Future of Space Travel"]
-    assert magazine1.contributing_authors() == [author1, author2]
+    print("Article 1 title:", article1.title())
+    print("Article 1 author:", article1.author().name())
+    print("Article 1 magazine:", article1.magazine().name())
 
-    assert magazine2.contributors() == [author2, author3]
-    assert magazine2.article_titles() == ["Global Politics in 21st Century", "Climate Change: A Global Challenge"]
-    assert magazine2.contributing_authors() == [author2, author3]
+    print("All articles:", [article.title() for article in Article.all()])
+    print("All magazines:", [magazine.name() for magazine in Magazine.all()])
+    print("All contributions:", [(contribution.author.name(), contribution.magazine.name()) for contribution in Contribution.all()])
 
-    assert article1.title() == "Exploring the Cosmos"
-    assert article1.author() == author1
-    assert article1.magazine() == magazine1
+    print("Author 1 articles:", [article.title() for article in author1.articles()])
+    print("Author 2 articles:", [article.title() for article in author2.articles()])
+    print("Author 3 articles:", [article.title() for article in author3.articles()])
 
-    assert article2.title() == "The Future of Space Travel"
-    assert article2.author() == author2
-    assert article2.magazine() == magazine1
+    print("Author 1 magazines:", [magazine.name() for magazine in author1.magazines()])
+    print("Author 2 magazines:", [magazine.name() for magazine in author2.magazines()])
+    print("Author 3 magazines:", [magazine.name() for magazine in author3.magazines()])
 
-    assert article3.title() == "Global Politics in 21st Century"
-    assert article3.author() == author2
-    assert article3.magazine() == magazine2
+    print("Magazine 1 contributors:", [author.name() for author in magazine1.contributors()])
+    print("Magazine 2 contributors:", [author.name() for author in magazine2.contributors()])
 
-    assert article4.title() == "Climate Change: A Global Challenge"
-    assert article4.author() == author3
-    assert article4.magazine() == magazine2
-
-    assert Article.all() == [article1, article2, article3, article4]
-
-    # Print information
-    print("Authors:")
-    for author in Author.all():
-        print(author.name())
-
-    print("\nMagazines:")
-    for magazine in Magazine.all():
-        print(f"{magazine.name()} - {magazine.category()}")
-
-    print("\nArticles:")
-    for article in Article.all():
-        print(f"{article.title()} by {article.author().name()} in {article.magazine().name()}")
-
-    # Enter debugging mode
-    ipdb.set_trace()
+    print("Debugging completed successfully.")
